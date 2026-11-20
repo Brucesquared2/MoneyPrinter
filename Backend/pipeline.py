@@ -347,19 +347,7 @@ def run_generation_pipeline(
 
     emit(f"[+] Video generated: {final_video_path}!", "success")
 
-    if os.name == "nt":
-        subprocess.run(
-            ["taskkill", "/f", "/im", "ffmpeg.exe"],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-    elif shutil.which("pkill"):
-        subprocess.run(
-            ["pkill", "-f", "ffmpeg"],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
+    # MoviePy clips and subprocess.run calls are closed/waited above.
+    # Never terminate unrelated FFmpeg renders on this shared host.
 
     return final_video_path
